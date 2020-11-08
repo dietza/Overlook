@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
+    <meta charset="UTF-8">
     <title>Overlook Hotel</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,400;0,500;1,200;1,400;1,500&display=swap">
   </head>
   <body>
-    <h1>Overlook Hotel</h1>
+    <h1 id="headerText" tabindex="0">Overlook Hotel</h1>
 
-    <form action="" method="get" class="user-login-form">
+    <section class="main">
 
-      <section class="username-form">
-        <label for="name">Enter your Username: </label>
-        <input type="text" name="username" id="username-input" aria-required=true>
-      </section>
-      <section class="user-password-form">
-        <label for="email">Enter your password: </label>
-        <input type="password" name="user-password" id="user-password-input" aria-required=true>
-      </section>
-      <button class="login-submit-button" type="button">Submit</button>
+      <form role="user-login" class="user-login-form">
 
-    </form>
+        <section class="username-form">
+          <label for="name">Enter your Username: </label>
+          <input type="text" name="username" id="username-input" aria-required=true placeholder="username" tabindex="0">
+        </section>
+        <section class="user-password-form">
+          <label for="email">Enter your password: </label>
+          <input type="password" name="user-password" id="user-password-input" aria-required=true placeholder="password" tabindex="0">
+        </section>
+        <button id="login-submit-button" class="submit-button" type="button" tabindex="0">Submit</button>
 
+      </form>
+
+    </section>
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
+
+
   </body>
 </html>

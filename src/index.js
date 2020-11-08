@@ -14,7 +14,7 @@ import User from './User'
 
 let usernameInput = document.querySelector('#username-input');
 let userPasswordInput = document.querySelector('#user-password-input');
-let loginSubmitButton = document.querySelector('.login-submit-button');
+let loginSubmitButton = document.querySelector('#login-submit-button');
 
 let userData;
 
