@@ -17,6 +17,7 @@ let userPasswordInput = document.querySelector('#user-password-input');
 let loginSubmitButton = document.querySelector('#login-submit-button');
 
 let userData;
+let userID;
 
 loginSubmitButton.addEventListener('click', verifyLoginInputs);
 
@@ -30,14 +31,13 @@ function verifyLoginInputs() {
   };
 };
 
-
 function submitFetch() {
 
   fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users')
     .then(response => response.json())
     .then(data => makeUsers(data))
     .then(users => console.log('users:', users))
-}
+};
 
 function makeUsers(data) {
 
@@ -45,7 +45,7 @@ function makeUsers(data) {
     return new User(userInfo);
   })
 
-}
+};
 
 
 // SUBMIT FETCH REQUEST to get data from the API

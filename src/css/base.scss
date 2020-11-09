@@ -96,6 +96,7 @@ h1 {
 input {
   @include inputs;
   text-align: center;
+  color: $white;
 }
 
 ::placeholder {
