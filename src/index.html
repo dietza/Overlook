@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Webpack Starter Kit</title>
+    <meta charset="UTF-8">
+    <title>Overlook Hotel</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,400;0,500;1,200;1,400;1,500&display=swap">
   </head>
   <body>
-    <h1>Webpack Starter Kit</h1>
+    <h1 id="headerText" tabindex="0">Overlook Hotel</h1>
 
-    <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
+    <section class="main">
 
+      <form role="user-login" class="user-login-form">
+
+        <section class="username-form">
+          <label for="name">Enter your Username: </label>
+          <input type="text" name="username" id="username-input" aria-required=true placeholder="username" tabindex="0">
+        </section>
+        <section class="user-password-form">
+          <label for="email">Enter your password: </label>
+          <input type="password" name="user-password" id="user-password-input" aria-required=true placeholder="password" tabindex="0">
+        </section>
+        <button id="login-submit-button" class="submit-button" type="button" tabindex="0">Submit</button>
+
+      </form>
+
+    </section>
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
+
+
   </body>
 </html>
