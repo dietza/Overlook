@@ -11,7 +11,6 @@ console.log('This is the JavaScript entry file - your code begins here.');
 
 import User from './User'
 
-
 let usernameInput = document.querySelector('#username-input');
 let userPasswordInput = document.querySelector('#user-password-input');
 let loginSubmitButton = document.querySelector('#login-submit-button');
@@ -25,26 +24,44 @@ function verifyLoginInputs() {
   if(!usernameInput.value) {
     alert('Please input a valid username! (ex: customer[ user ID 1-50 ])')
   } else if (userPasswordInput.value !== 'overlook2020') {
-    alert('Please input a valid passoword!')
-  } else if (usernameInput.value.length > 6 && userPasswordInput.value === 'overlook2020') {
-    submitFetch();
+    alert('Please input a valid password!')
+  } else if (usernameInput.value.includes('manager')
+    && userPasswordInput.value === 'overlook2020') {
+      console.log('verifyLoginInputs:', 'manager')
+      fetchUserData();
+
+  } else if (usernameInput.value.includes('customer')
+    && userPasswordInput.value === 'overlook2020') {
+      console.log('verifyLoginInputs:', 'customer')
+      // fetchRoomData();
+      fetchUserData();
+
   };
 };
 
-function submitFetch() {
+// IF Manager loging in - just display page, no FETCH
+// IF Guest logging in - FETCH data to instantiate USER/guest and display page
 
+function fetchUserData() {
   fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users')
     .then(response => response.json())
     .then(data => makeUsers(data))
     .then(users => console.log('users:', users))
+    .catch(error => console.log(error.message));
 };
 
-function makeUsers(data) {
+// function fetchRoomData() {
+//   fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/rooms/rooms')
+//     .then(response => response.json())
+//     .then(data => return data)
+//     .then(rooms => console.log('rooms:', rooms))
+//     .catch(error => console.log(error.message));
+// };
 
+function makeUsers(data) {
   return data.users.map(userInfo => {
     return new User(userInfo);
   })
-
 };
 
 
