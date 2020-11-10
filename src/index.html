@@ -6,26 +6,28 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,400;0,500;1,200;1,400;1,500&display=swap">
   </head>
   <body>
-    <section class="welcome-header">
-      <p class="welcome-text">Welcome to the</p>
-      <h1 id="headerText" tabindex="0">Overlook Hotel</h1>
-    </section>
-    <section class="main">
-
-      <form role="user-login" class="user-login-form">
-
-        <section class="username-form">
-          <label for="name" class="input-label">Enter your Username: </label>
-          <input type="text" name="username" id="username-input" aria-label="input-field-for-username" aria-required=true placeholder="username" tabindex="0">
+    <section class="main-display">
+        <section class="welcome-header">
+          <p class="welcome-text">Welcome to the</p>
+          <h1 id="headerText" tabindex="0">Overlook Hotel</h1>
         </section>
-        <section class="user-password-form">
-          <label for="email" class="input-label">Enter your password: </label>
-          <input type="password" name="user-password" id="user-password-input" aria-label="input-field-for-userID-number" aria-required=true placeholder="password" tabindex="0">
+        <section class="main">
+
+          <form role="user-login" class="user-login-form">
+
+            <section class="username-form">
+              <label for="name" class="input-label">Enter your Username: </label>
+              <input type="text" name="username" id="username-input" aria-label="input-field-for-username" aria-required=true placeholder="username" tabindex="0">
+            </section>
+            <section class="user-password-form">
+              <label for="email" class="input-label">Enter your password: </label>
+              <input type="password" name="user-password" id="user-password-input" aria-label="input-field-for-userID-number" aria-required=true placeholder="password" tabindex="0">
+            </section>
+            <button id="login-submit-button" class="submit-button" type="button" tabindex="0">Submit</button>
+
+          </form>
+
         </section>
-        <button id="login-submit-button" class="submit-button" type="button" tabindex="0">Submit</button>
-
-      </form>
-
     </section>
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
 

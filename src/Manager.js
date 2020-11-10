@@ -1,8 +1,7 @@
 class Manager {
   constructor(manager) {
   this.availableBookings = [],
-  this.rentedBookings = [],
-  this.roomTypes = []
+  this.bookedRooms = [],
   }
 
   searchAvailability(selectedDate) {
@@ -18,7 +17,7 @@ class Manager {
   }
 
   deleteBooking(userId) {
-    
+
   }
 
 }

@@ -14,10 +14,11 @@ import User from './User'
 import {usernameInput, userPasswordInput} from './dom-data.js'
 import {fetchApi} from './Fetch-API';
 
-// let usernameInput = document.querySelector('#username-input');
-// let userPasswordInput = document.querySelector('#user-password-input');
+let mainDisplay = document.querySelector('.main-display');
 let loginSubmitButton = document.querySelector('#login-submit-button');
 
+let today = new Date();
+console.log('today: ', today)
 let usersData = fetchApi.fetchUsersData();
 console.log('usersData: ', usersData)
 let roomsData = fetchApi.fetchRoomsData();
@@ -27,26 +28,31 @@ let userID;
 
 Promise.all([usersData, roomsData, bookingsData])
   .then(values => {
-    guests = makeUsers(values[0]);
+    guests = makeUsers(values[0])
+});
+
+function makeUsers(usersData) {
+  return usersData.map(userInfo => {
+    return new User(userInfo);
   })
+};
 
 usernameInput.addEventListener('click', clearErrors);
 userPasswordInput.addEventListener('click', clearErrors);
 loginSubmitButton.addEventListener('click', verifyLoginInputs);
 
 function verifyLoginInputs() {
-  if(!usernameInput.value.includes('manager' || 'customer')) {
+  if(!usernameInput.value.includes('manager') && !usernameInput.value.includes('customer')) {
     showUsernameError();
     clearInputs();
   } else if (userPasswordInput.value !== 'overlook2020') {
       showPasswordError();
       clearInputs();
-  } else if (usernameInput.value.includes('manager')
-    && userPasswordInput.value === 'overlook2020') {
+  } else if (usernameInput.value.includes('manager')) {
       console.log('verifyLoginInputs:', 'manager');
       clearInputs();
-  } else if (usernameInput.value.includes('customer')
-    && userPasswordInput.value === 'overlook2020') {
+      displayManagerDashboard();
+  } else if (usernameInput.value.includes('customer')) {
       console.log('verifyLoginInputs:', 'customer');
       clearInputs();
   };
@@ -55,11 +61,40 @@ function verifyLoginInputs() {
 // IF Manager loging in - just display page, no FETCH
 // IF Guest logging in - FETCH data to instantiate USER/guest and display page
 
-function makeUsers(usersData) {
-  return usersData.map(userInfo => {
-    return new User(userInfo);
-  })
-};
+function displayManagerDashboard(today) {
+  mainDisplay.innerHTML = '';
+
+  let managerDashboard =
+      `<section class="manager-dashboard">
+        <form class="manager-display" role="display-info-for-manager">
+          <div class="manager-welcome">
+            <p>Welcome!</p>
+            <h2>MANAGER</h2>
+            <p>Access</p>
+          </div>
+            <section class="available-bookings">
+              <p>Rooms available today: ${today}</p>
+            </section>
+            <section class="booked-rooms">
+              <p>Rooms booked today: ${today}</p>
+            </section>
+            <section class="daily-revenue">
+              <p>Projected daily revenue: ${today}</p>
+            </section>
+          </form>
+        </section>`
+
+  mainDisplay.insertAdjacentHTML('beforeend', managerDashboard);
+}
+
+function verifyUser() {
+
+  displayGuestDashboard(userId);
+}
+
+function displayGuestDashboard() {
+  mainDisplay.innerHTML = '';
+}
 
 function showUsernameError() {
   let usernameError =
