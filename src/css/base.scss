@@ -75,6 +75,14 @@ $focus-color:	#FF6347;
   }
 }
 
+@mixin error-message {
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  font-weight: 400;
+  color: $focus-color;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -133,4 +141,21 @@ label {
 
 button:focus {
   color: $focus-color;
+}
+
+.username-error {
+  @include flexDisplay(column);
+  @include labelText;
+  @include error-message;
+}
+
+.password-error {
+  @include flexDisplay(column);
+  @include labelText;
+  @include error-message;
+}
+
+.error-icon {
+ height: 15px;
+ width: 15px;
 }

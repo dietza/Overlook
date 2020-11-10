@@ -5,7 +5,7 @@
 import './css/base.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+import './images/errorX.png'
 
 console.log('This is the JavaScript entry file - your code begins here.');
 
@@ -30,48 +30,30 @@ Promise.all([usersData, roomsData, bookingsData])
     guests = makeUsers(values[0]);
   })
 
+usernameInput.addEventListener('click', clearErrors);
+userPasswordInput.addEventListener('click', clearErrors);
 loginSubmitButton.addEventListener('click', verifyLoginInputs);
 
 function verifyLoginInputs() {
-  if(!usernameInput.value) {
-    alert('Please input a valid username! (ex: customer[ user ID 1-50 ])')
+  if(!usernameInput.value.includes('manager' || 'customer')) {
+    showUsernameError();
+    clearInputs();
   } else if (userPasswordInput.value !== 'overlook2020') {
-    throw new Error('BAD PASSWORD!');
+      showPasswordError();
+      clearInputs();
   } else if (usernameInput.value.includes('manager')
     && userPasswordInput.value === 'overlook2020') {
-      console.log('verifyLoginInputs:', 'manager')
-
+      console.log('verifyLoginInputs:', 'manager');
+      clearInputs();
   } else if (usernameInput.value.includes('customer')
     && userPasswordInput.value === 'overlook2020') {
-      console.log('verifyLoginInputs:', 'customer')
-
+      console.log('verifyLoginInputs:', 'customer');
+      clearInputs();
   };
 };
 
 // IF Manager loging in - just display page, no FETCH
 // IF Guest logging in - FETCH data to instantiate USER/guest and display page
-
-// function fetchUserData() {
-//   fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users')
-//     .then(response => response.json())
-//     .then(data => userData = data)
-//     // .then(data => makeUsers(data))
-//     .catch(error => console.log(error.message));
-// };
-//
-// function fetchBookingData() {
-//   fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings')
-//     .then(response => response.json())
-//     .then(data => bookingData = data)
-//     .catch(error => console.log(error.message));
-// };
-//
-// function fetchRoomData() {
-//   fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/rooms/rooms')
-//     .then(response => response.json())
-//     .then(data => roomData = data)
-//     .catch(error => console.log(error.message));
-// };
 
 function makeUsers(usersData) {
   return usersData.map(userInfo => {
@@ -79,10 +61,32 @@ function makeUsers(usersData) {
   })
 };
 
+function showUsernameError() {
+  let usernameError =
+  `<section class='error-message'>
+      <img src='./images/errorX.png' class='error-icon'>
+      <p class='username-error'>Are you a guest? Please enter a valid username.</p>
+      <p class='username-error'>customer[your user ID number]</p>
+    </section>`;
+  usernameInput.insertAdjacentHTML('afterend', usernameError);
+};
 
-// SUBMIT FETCH REQUEST to get data from the API
-// Instatiate the correct type of USER,
-// DISPLAY the correct dashboard,
-//
+function showPasswordError() {
+  let userpasswordError =
+  `<section class='error-message'>
+      <img src='./images/errorX.png' class='error-icon'>
+      <p class='password-error'>Please enter a valid password to login.</p>
+    </section>`;
+  userPasswordInput.insertAdjacentHTML('afterend', userpasswordError);
+};
 
-//
+function clearInputs() {
+  usernameInput.value = '';
+  userPasswordInput.value = '';
+};
+
+function clearErrors() {
+  document.querySelectorAll('.error-message').forEach(error => {
+    error.innerHTML = ''
+  })
+};

@@ -2,8 +2,26 @@ class User {
   constructor(user) {
     this.id = user.id,
     this.name = user.name,
-    this.bookings = []
+    this.bookings = [],
+    this.totalSpent = 0
   }
+
+  viewBookings() {
+
+  }
+
+  viewTotalSpent() {
+
+  }
+
+  searchAvailability(selectedDate) {
+
+  }
+
+  bookRoom(room, selectedDate) {
+
+  }
+
 }
 
 
