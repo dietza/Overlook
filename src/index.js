@@ -10,21 +10,25 @@ import './images/errorX.png'
 console.log('This is the JavaScript entry file - your code begins here.');
 
 import User from './User'
+import Manager from './Manager'
 
-import {usernameInput, userPasswordInput} from './dom-data.js'
+import {usernameInput, userPasswordInput} from './dom-data'
 import {fetchApi} from './Fetch-API';
+import {domDisplay} from './DOM-display';
+
 
 let mainDisplay = document.querySelector('.main-display');
 let loginSubmitButton = document.querySelector('#login-submit-button');
 
-let today = new Date();
-console.log('today: ', today)
 let usersData = fetchApi.fetchUsersData();
 console.log('usersData: ', usersData)
 let roomsData = fetchApi.fetchRoomsData();
 let bookingsData = fetchApi.fetchBookingsData();
 let guests;
+let currentGuest;
+let manager;
 let userID;
+let today;
 
 Promise.all([usersData, roomsData, bookingsData])
   .then(values => {
@@ -41,6 +45,12 @@ usernameInput.addEventListener('click', clearErrors);
 userPasswordInput.addEventListener('click', clearErrors);
 loginSubmitButton.addEventListener('click', verifyLoginInputs);
 
+function getToday() {
+  let today = (new Date()).toLocaleDateString('en-GB');
+  console.log('today: ', today)
+  return today;
+}
+
 function verifyLoginInputs() {
   if(!usernameInput.value.includes('manager') && !usernameInput.value.includes('customer')) {
     showUsernameError();
@@ -55,45 +65,56 @@ function verifyLoginInputs() {
   } else if (usernameInput.value.includes('customer')) {
       console.log('verifyLoginInputs:', 'customer');
       clearInputs();
+      verifyUser();
   };
 };
 
 // IF Manager loging in - just display page, no FETCH
 // IF Guest logging in - FETCH data to instantiate USER/guest and display page
 
-function displayManagerDashboard(today) {
+function displayManagerDashboard() {
   mainDisplay.innerHTML = '';
-
-  let managerDashboard =
-      `<section class="manager-dashboard">
-        <form class="manager-display" role="display-info-for-manager">
-          <div class="manager-welcome">
-            <p>Welcome!</p>
-            <h2>MANAGER</h2>
-            <p>Access</p>
-          </div>
-            <section class="available-bookings">
-              <p>Rooms available today: ${today}</p>
-            </section>
-            <section class="booked-rooms">
-              <p>Rooms booked today: ${today}</p>
-            </section>
-            <section class="daily-revenue">
-              <p>Projected daily revenue: ${today}</p>
-            </section>
-          </form>
-        </section>`
-
+  let today = getToday();
+  let manager = new Manager(today);
+  let managerDashboard = domDisplay.buildManagerDashboard(today, manager);
   mainDisplay.insertAdjacentHTML('beforeend', managerDashboard);
 }
 
 function verifyUser() {
+  let userID = usernameInput.value.split('', 8);
+  console.log('userID:', userID);
 
-  displayGuestDashboard(userId);
+  let currentGuest = guests.find(user => {
+    return user.id === userID
+  })
+
+  displayGuestDashboard(currentGuest);
 }
 
-function displayGuestDashboard() {
+function displayGuestDashboard(currentGuest) {
   mainDisplay.innerHTML = '';
+  let today = getToday();
+  let guestDashboard = domDisplay.buildGuestDashboard(today, currentGuest);
+      // `<section class="guest-dashboard">
+      //   <form class="guest-display" role="display-info-for-guest">
+      //     <div class="guest-welcome">
+      //       <p>Welcome,</p>
+      //       <h2>${user.name}!</h2>
+      //     </div>
+      //     <div>
+      //       <section class="guest-bookings">
+      //         <p>My Bookings: ${user.bookings}</p>
+      //       </section>
+      //     </div>
+      //     <div>
+      //       <section class="total-spent">
+      //         <p>Total billed: ${user.totalSpent}</p>
+      //       </section>
+      //     </div>
+      //     </form>
+      //   </section>`
+
+  mainDisplay.insertAdjacentHTML('beforeend', guestDashboard);
 }
 
 function showUsernameError() {

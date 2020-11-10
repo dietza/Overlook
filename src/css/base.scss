@@ -104,6 +104,13 @@ h1 {
 h2 {
   @include headingText;
   font-size: 2.5em;
+  margin: 0
+}
+
+h3 {
+  @include headingText;
+  font-size: 2em;
+  margin: 0
 }
 
 p {

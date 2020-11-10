@@ -1,15 +1,20 @@
 class Manager {
-  constructor(manager) {
-  this.availableBookings = [],
-  this.bookedRooms = [],
+  constructor(today) {
+  this.availableBookings = [ 4, 5, 6],
+  this.bookedRooms = [ 1, 2, 3]
   }
 
   searchAvailability(selectedDate) {
 
   }
 
-  calculateDailyRevenue(selectedDate) {
+  calculatePercentageOccupied(today) {
 
+  }
+
+  calculateDailyRevenue(today) {
+    let total = `$${2.00}`;
+    return total;
   }
 
   searchByGuest(userName) {
@@ -21,3 +26,5 @@ class Manager {
   }
 
 }
+
+module.exports = Manager;

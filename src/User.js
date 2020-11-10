@@ -2,7 +2,7 @@ class User {
   constructor(user) {
     this.id = user.id,
     this.name = user.name,
-    this.bookings = [],
+    this.bookings = [1,2,3],
     this.totalSpent = 0
   }
 
@@ -10,7 +10,7 @@ class User {
 
   }
 
-  viewTotalSpent() {
+  caluculateTotalSpent() {
 
   }
 
