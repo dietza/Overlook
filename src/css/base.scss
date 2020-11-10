@@ -39,6 +39,15 @@ $focus-color:	#FF6347;
   height: 1000px;
 }
 
+@mixin dashboardBackground() {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)),
+    url(https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/iss063e110863.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 1000px;
+}
+
 @mixin form() {
   text-align: center;
   align-items: center;
@@ -70,9 +79,10 @@ $focus-color:	#FF6347;
   border-radius: 3%;
   margin: 25px;
   cursor: crosshair;
-  button:focus {
-    color: $focus-color;
-  }
+}
+
+button:focus {
+  color: $focus-color;
 }
 
 @mixin error-message {
@@ -109,25 +119,13 @@ h2 {
 
 h3 {
   @include headingText;
-  font-size: 2em;
+  font-size: 1.65em;
   margin: 0
 }
 
 p {
   @include labelText;
   font-size: 1.25em;
-}
-
-.welcome-header {
-  @include flexDisplay(column);
-  margin: 40px;
-}
-
-.manager-welcome {
-  @include flexDisplay(column);
-  align-items: center;
-  justify-content: center;
-  margin: 0px;
 }
 
 input {
@@ -154,12 +152,31 @@ label {
   align-items: center;
 }
 
+.welcome-header {
+  @include flexDisplay(column);
+  margin: 40px;
+}
+
+.manager-display {
+  @include flexDisplay(column);
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
+}
+
+.manager-welcome {
+  @include flexDisplay(column);
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
+}
+
 .submit-button {
   @include buttons;
 }
 
-button:focus {
-  color: $focus-color;
+.logout-button {
+  @include buttons;
 }
 
 .username-error {

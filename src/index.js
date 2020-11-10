@@ -12,13 +12,16 @@ console.log('This is the JavaScript entry file - your code begins here.');
 import User from './User'
 import Manager from './Manager'
 
-import {usernameInput, userPasswordInput} from './dom-data'
+// import {usernameInput, userPasswordInput} from './dom-data'
 import {fetchApi} from './Fetch-API';
 import {domDisplay} from './DOM-display';
 
-
 let mainDisplay = document.querySelector('.main-display');
 let loginSubmitButton = document.querySelector('#login-submit-button');
+let returnToLoginButton;
+
+let usernameInput = document.querySelector('#username-input');
+let userPasswordInput = document.querySelector('#user-password-input');
 
 let usersData = fetchApi.fetchUsersData();
 console.log('usersData: ', usersData)
@@ -49,7 +52,7 @@ function getToday() {
   let today = (new Date()).toLocaleDateString('en-GB');
   console.log('today: ', today)
   return today;
-}
+};
 
 function verifyLoginInputs() {
   if(!usernameInput.value.includes('manager') && !usernameInput.value.includes('customer')) {
@@ -64,8 +67,8 @@ function verifyLoginInputs() {
       displayManagerDashboard();
   } else if (usernameInput.value.includes('customer')) {
       console.log('verifyLoginInputs:', 'customer');
-      clearInputs();
       verifyUser();
+      clearInputs();
   };
 };
 
@@ -75,47 +78,44 @@ function verifyLoginInputs() {
 function displayManagerDashboard() {
   mainDisplay.innerHTML = '';
   let today = getToday();
-  let manager = new Manager(today);
+  let manager = new Manager(today, guests);
   let managerDashboard = domDisplay.buildManagerDashboard(today, manager);
   mainDisplay.insertAdjacentHTML('beforeend', managerDashboard);
-}
+  returnToLoginButton = document.querySelector('#return-to-login-button');
+  returnToLoginButton.addEventListener('click', returnToLogin);
+};
 
 function verifyUser() {
-  let userID = usernameInput.value.split('', 8);
-  console.log('userID:', userID);
-
+  let splitInput = usernameInput.value.split('');
+  let userID = parseInt(splitInput[8]+splitInput[9]);
   let currentGuest = guests.find(user => {
     return user.id === userID
   })
-
+  console.log('currentGuest:', currentGuest);
   displayGuestDashboard(currentGuest);
-}
+};
 
 function displayGuestDashboard(currentGuest) {
   mainDisplay.innerHTML = '';
   let today = getToday();
   let guestDashboard = domDisplay.buildGuestDashboard(today, currentGuest);
-      // `<section class="guest-dashboard">
-      //   <form class="guest-display" role="display-info-for-guest">
-      //     <div class="guest-welcome">
-      //       <p>Welcome,</p>
-      //       <h2>${user.name}!</h2>
-      //     </div>
-      //     <div>
-      //       <section class="guest-bookings">
-      //         <p>My Bookings: ${user.bookings}</p>
-      //       </section>
-      //     </div>
-      //     <div>
-      //       <section class="total-spent">
-      //         <p>Total billed: ${user.totalSpent}</p>
-      //       </section>
-      //     </div>
-      //     </form>
-      //   </section>`
-
   mainDisplay.insertAdjacentHTML('beforeend', guestDashboard);
-}
+  returnToLoginButton = document.querySelector('#return-to-login-button');
+  returnToLoginButton.addEventListener('click', returnToLogin);
+};
+
+function returnToLogin() {
+  console.log('returnToLogin: ', 'called');
+  mainDisplay.innerHTML = '';
+  let loginDisplay = domDisplay.showLoginDisplay();
+  mainDisplay.insertAdjacentHTML('beforeend', loginDisplay);
+  usernameInput = document.querySelector('#username-input');
+  userPasswordInput = document.querySelector('#user-password-input');
+  loginSubmitButton = document.querySelector('#login-submit-button');
+  usernameInput.addEventListener('click', clearErrors);
+  userPasswordInput.addEventListener('click', clearErrors);
+  loginSubmitButton.addEventListener('click', verifyLoginInputs);
+};
 
 function showUsernameError() {
   let usernameError =

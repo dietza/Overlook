@@ -1,5 +1,29 @@
 let domDisplay = {
 
+  showLoginDisplay() {
+    let loginDisplay =
+    `<section class="main-display">
+      <section class="welcome-header">
+        <p class="welcome-text">Welcome to the</p>
+        <h1 id="headerText" tabindex="0">Overlook Hotel</h1>
+      </section>
+      <section class="main">
+        <form role="user-login" class="user-login-form">
+          <section class="username-form">
+            <label for="name" class="input-label">Enter your Username: </label>
+            <input type="text" name="username" id="username-input" aria-label="input-field-for-username" aria-required=true placeholder="username" tabindex="0">
+          </section>
+          <section class="user-password-form">
+            <label for="email" class="input-label">Enter your password: </label>
+            <input type="password" name="user-password" id="user-password-input" aria-label="input-field-for-userID-number" aria-required=true placeholder="password" tabindex="0">
+          </section>
+          <button id="login-submit-button" class="submit-button" type="button" tabindex="0">Submit</button>
+        </form>
+      </section>
+    </section>`
+    return loginDisplay;
+  },
+
   buildManagerDashboard(today, manager) {
     let managerDashboard =
     `<section class="manager-dashboard">
@@ -11,7 +35,7 @@ let domDisplay = {
         </div>
         <div>
           <section class="available-bookings">
-            <p>Rooms available today : </p>
+            <p>Rooms available today : ${manager.availableBookings}</p>
           </section>
         </div>
         <div>
@@ -24,10 +48,12 @@ let domDisplay = {
             <p>Projected daily revenue : ${manager.calculateDailyRevenue(today)}</p>
           </section>
         </div>
+        <button id="return-to-login-button" class="logout-button" type="button" tabindex="0">Logout</button>
         </form>
       </section>`
     return managerDashboard;
   },
+
   buildGuestDashboard(today, user) {
     let guestDashboard =
     `<section class="guest-dashboard">
@@ -46,8 +72,11 @@ let domDisplay = {
             <p>Total billed: ${user.totalSpent}</p>
           </section>
         </div>
-        </form>
-      </section>`
+        <div>
+        <button id="return-to-login-button" class="logout-button" type="button" tabindex="0">Logout</button>
+        </div>
+      </form>
+    </section>`
     return guestDashboard;
   },
 

@@ -1,5 +1,3 @@
-import {usernameInput, userPasswordInput} from './dom-data.js'
-
 let fetchApi = {
 
   fetchUsersData() {

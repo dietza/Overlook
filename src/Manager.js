@@ -1,7 +1,8 @@
 class Manager {
-  constructor(today) {
+  constructor(today, guestList) {
   this.availableBookings = [ 4, 5, 6],
-  this.bookedRooms = [ 1, 2, 3]
+  this.bookedRooms = [ 1, 2, 3],
+  this.guests
   }
 
   searchAvailability(selectedDate) {
