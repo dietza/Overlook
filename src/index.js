@@ -11,12 +11,24 @@ console.log('This is the JavaScript entry file - your code begins here.');
 
 import User from './User'
 
-let usernameInput = document.querySelector('#username-input');
-let userPasswordInput = document.querySelector('#user-password-input');
+import {usernameInput, userPasswordInput} from './dom-data.js'
+import {fetchApi} from './Fetch-API';
+
+// let usernameInput = document.querySelector('#username-input');
+// let userPasswordInput = document.querySelector('#user-password-input');
 let loginSubmitButton = document.querySelector('#login-submit-button');
 
-let userData;
+let usersData = fetchApi.fetchUsersData();
+console.log('usersData: ', usersData)
+let roomsData = fetchApi.fetchRoomsData();
+let bookingsData = fetchApi.fetchBookingsData();
+let guests;
 let userID;
+
+Promise.all([usersData, roomsData, bookingsData])
+  .then(values => {
+    guests = makeUsers(values[0]);
+  })
 
 loginSubmitButton.addEventListener('click', verifyLoginInputs);
 
@@ -24,17 +36,14 @@ function verifyLoginInputs() {
   if(!usernameInput.value) {
     alert('Please input a valid username! (ex: customer[ user ID 1-50 ])')
   } else if (userPasswordInput.value !== 'overlook2020') {
-    alert('Please input a valid password!')
+    throw new Error('BAD PASSWORD!');
   } else if (usernameInput.value.includes('manager')
     && userPasswordInput.value === 'overlook2020') {
       console.log('verifyLoginInputs:', 'manager')
-      fetchUserData();
 
   } else if (usernameInput.value.includes('customer')
     && userPasswordInput.value === 'overlook2020') {
       console.log('verifyLoginInputs:', 'customer')
-      // fetchRoomData();
-      fetchUserData();
 
   };
 };
@@ -42,24 +51,30 @@ function verifyLoginInputs() {
 // IF Manager loging in - just display page, no FETCH
 // IF Guest logging in - FETCH data to instantiate USER/guest and display page
 
-function fetchUserData() {
-  fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users')
-    .then(response => response.json())
-    .then(data => makeUsers(data))
-    .then(users => console.log('users:', users))
-    .catch(error => console.log(error.message));
-};
-
+// function fetchUserData() {
+//   fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users')
+//     .then(response => response.json())
+//     .then(data => userData = data)
+//     // .then(data => makeUsers(data))
+//     .catch(error => console.log(error.message));
+// };
+//
+// function fetchBookingData() {
+//   fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings')
+//     .then(response => response.json())
+//     .then(data => bookingData = data)
+//     .catch(error => console.log(error.message));
+// };
+//
 // function fetchRoomData() {
 //   fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/rooms/rooms')
 //     .then(response => response.json())
-//     .then(data => return data)
-//     .then(rooms => console.log('rooms:', rooms))
+//     .then(data => roomData = data)
 //     .catch(error => console.log(error.message));
 // };
 
-function makeUsers(data) {
-  return data.users.map(userInfo => {
+function makeUsers(usersData) {
+  return usersData.map(userInfo => {
     return new User(userInfo);
   })
 };

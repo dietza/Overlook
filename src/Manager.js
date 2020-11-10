@@ -3,4 +3,6 @@ class Manager {
     this.id = manager.id,
     this.name = manager.name
   }
+
+  
 }
