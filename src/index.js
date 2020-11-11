@@ -27,21 +27,53 @@ let usersData = fetchApi.fetchUsersData();
 console.log('usersData: ', usersData)
 let roomsData = fetchApi.fetchRoomsData();
 let bookingsData = fetchApi.fetchBookingsData();
+console.log('bookingsData: ', bookingsData);
+
 let guests;
 let currentGuest;
 let manager;
 let userID;
+let userBookings;
 let today;
 
 Promise.all([usersData, roomsData, bookingsData])
   .then(values => {
-    guests = makeUsers(values[0])
+    guests = makeUsers(values[0]);
+
+    findUserBookings(values[2]);
+
+    findUserTotalSpent(values[1]);
+
 });
 
 function makeUsers(usersData) {
   return usersData.map(userInfo => {
     return new User(userInfo);
   })
+};
+
+function findUserBookings(bookingsData) {
+  guests.forEach(user => {
+    user.bookings = bookingsData.filter(booking => {
+      return booking.userID === user.id;
+    })
+  });
+};
+
+function findUserTotalSpent(roomsData) {
+  guests.forEach(user => {
+    let totalSpent = user.bookings.reduce((total, booking) => {
+      let roomBooked = roomsData.find(room => {
+        return room.number === parseInt(booking.roomNumber);
+      })
+      if (roomBooked !== undefined) {
+        total += roomBooked.costPerNight;
+      };
+      return total;
+    }, 0);
+    user.totalSpent = totalSpent.toFixed(2);
+    console.log('user.totalSpent: ', user.totalSpent);
+  });
 };
 
 usernameInput.addEventListener('click', clearErrors);

@@ -2,7 +2,7 @@ class User {
   constructor(user) {
     this.id = user.id,
     this.name = user.name,
-    this.bookings = [1,2,3],
+    this.bookings = [],
     this.totalSpent = 0
   }
 
@@ -23,8 +23,6 @@ class User {
   }
 
 }
-
-
 
 /// On LOGIN page:
 /// USER inputs their username - check validity (' customer1-50 ')

@@ -69,7 +69,7 @@ let domDisplay = {
         </div>
         <div>
           <section class="total-spent">
-            <p>Total billed: ${user.totalSpent}</p>
+            <p>Total billed : ${user.totalSpent}</p>
           </section>
         </div>
         <div>
