@@ -54,17 +54,23 @@ let domDisplay = {
     return managerDashboard;
   },
 
-  buildGuestDashboard(today, user) {
+  buildGuestDashboard(today, roomsData, user) {
+    let myBookings = domDisplay.formatBookingsList(roomsData, user);
     let guestDashboard =
     `<section class="guest-dashboard">
       <form class="guest-display" role="display-info-for-guest">
         <div class="guest-welcome">
           <p>Welcome,</p>
           <h2>${user.name}!</h2>
+          <h3>${today}</h3>
         </div>
         <div>
-          <section class="guest-bookings">
-            <p>My Bookings: ${user.bookings}</p>
+          <section class="guest-bookings-section">
+            <p>My Bookings:
+            <ul class="guest-bookings-list">
+            ${myBookings}
+            </ul>
+            </p>
           </section>
         </div>
         <div>
@@ -79,6 +85,16 @@ let domDisplay = {
     </section>`
     return guestDashboard;
   },
+
+  formatBookingsList(roomsData, user) {
+    console.log('formatBookingsList: ', 'called');
+    return user.bookings.map(booking => {
+      let room = roomsData.find(room => {
+        return room.number === parseInt(booking.roomNumber);
+      });
+      return `<li class="bookings-list-listItem">|Date: ${booking.date}  |Bill: ${room.costPerNight}</li>`
+    });
+  }
 
 };
 

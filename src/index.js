@@ -34,15 +34,24 @@ let currentGuest;
 let manager;
 let userID;
 let userBookings;
+let billing;
+let allRooms;
 let today;
 
 Promise.all([usersData, roomsData, bookingsData])
   .then(values => {
     guests = makeUsers(values[0]);
 
-    findUserBookings(values[2]);
+    userBookings = bookingsData;
+    console.log('userBookings: ', userBookings);
 
-    findUserTotalSpent(values[1]);
+    // findUserBookings(values[2]);
+
+/// May not want these to be FOR EACH & on load - consider more dynamic (user == guest || manager)
+    allRooms = roomsData;
+    console.log('allRooms: ', allRooms);
+
+    //findUserTotalSpent(values[1]);
 
 });
 
@@ -52,29 +61,19 @@ function makeUsers(usersData) {
   })
 };
 
-function findUserBookings(bookingsData) {
-  guests.forEach(user => {
-    user.bookings = bookingsData.filter(booking => {
-      return booking.userID === user.id;
-    })
-  });
-};
+// function findUserBookings(bookingsData) {
+//   guests.forEach(user => {
+//     user.viewBookings(bookingsData);
+//     console.log('user.bookings: ', user.bookings);
+//   });
+// };
 
-function findUserTotalSpent(roomsData) {
-  guests.forEach(user => {
-    let totalSpent = user.bookings.reduce((total, booking) => {
-      let roomBooked = roomsData.find(room => {
-        return room.number === parseInt(booking.roomNumber);
-      })
-      if (roomBooked !== undefined) {
-        total += roomBooked.costPerNight;
-      };
-      return total;
-    }, 0);
-    user.totalSpent = totalSpent.toFixed(2);
-    console.log('user.totalSpent: ', user.totalSpent);
-  });
-};
+// function findUserTotalSpent(roomsData) {
+//   guests.forEach(user => {
+//     user.caluculateTotalSpent(roomsData);
+//     console.log('user.totalSpent: ', user.totalSpent);
+//   });
+// };
 
 usernameInput.addEventListener('click', clearErrors);
 userPasswordInput.addEventListener('click', clearErrors);
@@ -99,7 +98,7 @@ function verifyLoginInputs() {
       displayManagerDashboard();
   } else if (usernameInput.value.includes('customer')) {
       console.log('verifyLoginInputs:', 'customer');
-      verifyUser();
+      establishUser();
       clearInputs();
   };
 };
@@ -117,20 +116,46 @@ function displayManagerDashboard() {
   returnToLoginButton.addEventListener('click', returnToLogin);
 };
 
-function verifyUser() {
+function establishUser() {
   let splitInput = usernameInput.value.split('');
   let userID = parseInt(splitInput[8]+splitInput[9]);
   let currentGuest = guests.find(user => {
     return user.id === userID
   })
-  console.log('currentGuest:', currentGuest);
-  displayGuestDashboard(currentGuest);
+  console.log('establishUser//currentGuest:', currentGuest);
+  defineUserInfo(currentGuest);
+  displayGuestDashboard(allRooms, currentGuest);
 };
 
-function displayGuestDashboard(currentGuest) {
+function defineUserInfo(currentGuest) {
+  console.log('defineUserInfo//currentGuest:', currentGuest);
+
+  findUserBookings(userBookings, currentGuest);
+  findUserTotalSpent(allRooms, currentGuest);
+}
+
+function findUserBookings(bookingsData, user) {
+  // guests.forEach(user => {
+    console.log('user.bookings: ', user.bookings);
+    let bookings = user.viewBookings(bookingsData);
+    console.log('user.bookings: ', user.bookings);
+    return bookings;
+  // });
+};
+
+function findUserTotalSpent(roomsData, user) {
+  // guests.forEach(user => {
+    console.log('user.totalSpent: ', user.totalSpent);
+    let totalBilled = user.caluculateTotalSpent(roomsData);
+    console.log('user.totalSpent: ', user.totalSpent);
+    return totalBilled;
+  // });
+};
+
+function displayGuestDashboard(roomsData, currentGuest) {
   mainDisplay.innerHTML = '';
   let today = getToday();
-  let guestDashboard = domDisplay.buildGuestDashboard(today, currentGuest);
+  let guestDashboard = domDisplay.buildGuestDashboard(today, roomsData, currentGuest);
   mainDisplay.insertAdjacentHTML('beforeend', guestDashboard);
   returnToLoginButton = document.querySelector('#return-to-login-button');
   returnToLoginButton.addEventListener('click', returnToLogin);
