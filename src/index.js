@@ -1,27 +1,20 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
 // An example of how you tell webpack to use a CSS (SCSS) file
 import './css/base.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/errorX.png'
 
-console.log('This is the JavaScript entry file - your code begins here.');
-
 import User from './User'
 import Manager from './Manager'
 
-// import {usernameInput, userPasswordInput} from './dom-data'
 import {fetchApi} from './Fetch-API';
 import {domDisplay} from './DOM-display';
 
 let mainDisplay = document.querySelector('.main-display');
-let loginSubmitButton = document.querySelector('#login-submit-button');
-let returnToLoginButton;
-
 let usernameInput = document.querySelector('#username-input');
 let userPasswordInput = document.querySelector('#user-password-input');
+let loginSubmitButton = document.querySelector('#login-submit-button');
+let returnToLoginButton;
 
 let usersData = fetchApi.fetchUsersData();
 console.log('usersData: ', usersData)
@@ -45,13 +38,8 @@ Promise.all([usersData, roomsData, bookingsData])
     userBookings = bookingsData;
     console.log('userBookings: ', userBookings);
 
-    // findUserBookings(values[2]);
-
-/// May not want these to be FOR EACH & on load - consider more dynamic (user == guest || manager)
     allRooms = roomsData;
     console.log('allRooms: ', allRooms);
-
-    //findUserTotalSpent(values[1]);
 
 });
 
@@ -60,20 +48,6 @@ function makeUsers(usersData) {
     return new User(userInfo);
   })
 };
-
-// function findUserBookings(bookingsData) {
-//   guests.forEach(user => {
-//     user.viewBookings(bookingsData);
-//     console.log('user.bookings: ', user.bookings);
-//   });
-// };
-
-// function findUserTotalSpent(roomsData) {
-//   guests.forEach(user => {
-//     user.caluculateTotalSpent(roomsData);
-//     console.log('user.totalSpent: ', user.totalSpent);
-//   });
-// };
 
 usernameInput.addEventListener('click', clearErrors);
 userPasswordInput.addEventListener('click', clearErrors);
@@ -90,21 +64,18 @@ function verifyLoginInputs() {
     showUsernameError();
     clearInputs();
   } else if (userPasswordInput.value !== 'overlook2020') {
-      showPasswordError();
-      clearInputs();
+    showPasswordError();
+    clearInputs();
   } else if (usernameInput.value.includes('manager')) {
-      console.log('verifyLoginInputs:', 'manager');
-      clearInputs();
-      displayManagerDashboard();
+    console.log('verifyLoginInputs:', 'manager');
+    clearInputs();
+    displayManagerDashboard();
   } else if (usernameInput.value.includes('customer')) {
-      console.log('verifyLoginInputs:', 'customer');
-      establishUser();
-      clearInputs();
+    console.log('verifyLoginInputs:', 'customer');
+    establishUser();
+    clearInputs();
   };
 };
-
-// IF Manager loging in - just display page, no FETCH
-// IF Guest logging in - FETCH data to instantiate USER/guest and display page
 
 function displayManagerDashboard() {
   mainDisplay.innerHTML = '';
@@ -122,7 +93,6 @@ function establishUser() {
   let currentGuest = guests.find(user => {
     return user.id === userID
   })
-  console.log('establishUser//currentGuest:', currentGuest);
   defineUserInfo(currentGuest);
   displayGuestDashboard(allRooms, currentGuest);
 };
@@ -132,24 +102,20 @@ function defineUserInfo(currentGuest) {
 
   findUserBookings(userBookings, currentGuest);
   findUserTotalSpent(allRooms, currentGuest);
-}
+};
 
 function findUserBookings(bookingsData, user) {
-  // guests.forEach(user => {
     console.log('user.bookings: ', user.bookings);
     let bookings = user.viewBookings(bookingsData);
     console.log('user.bookings: ', user.bookings);
     return bookings;
-  // });
 };
 
 function findUserTotalSpent(roomsData, user) {
-  // guests.forEach(user => {
     console.log('user.totalSpent: ', user.totalSpent);
     let totalBilled = user.caluculateTotalSpent(roomsData);
     console.log('user.totalSpent: ', user.totalSpent);
     return totalBilled;
-  // });
 };
 
 function displayGuestDashboard(roomsData, currentGuest) {
@@ -175,21 +141,12 @@ function returnToLogin() {
 };
 
 function showUsernameError() {
-  let usernameError =
-  `<section class='error-message'>
-      <img src='./images/errorX.png' class='error-icon'>
-      <p class='username-error'>Are you a guest? Please enter a valid username.</p>
-      <p class='username-error'>customer[your user ID number]</p>
-    </section>`;
+  let usernameError = domDisplay.showUsernameError();
   usernameInput.insertAdjacentHTML('afterend', usernameError);
 };
 
 function showPasswordError() {
-  let userpasswordError =
-  `<section class='error-message'>
-      <img src='./images/errorX.png' class='error-icon'>
-      <p class='password-error'>Please enter a valid password to login.</p>
-    </section>`;
+  let userpasswordError = domDisplay.showPasswordError();
   userPasswordInput.insertAdjacentHTML('afterend', userpasswordError);
 };
 

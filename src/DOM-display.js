@@ -24,6 +24,25 @@ let domDisplay = {
     return loginDisplay;
   },
 
+  showUsernameError() {
+    let usernameError =
+    `<section class='error-message'>
+        <img src='./images/errorX.png' class='error-icon'>
+        <p class='username-error'>Are you a guest? Please enter a valid username.</p>
+        <p class='username-error'>customer[your user ID number]</p>
+      </section>`;
+    return usernameError;
+  },
+
+  showPasswordError() {
+    let passwordError =
+    `<section class='error-message'>
+        <img src='./images/errorX.png' class='error-icon'>
+        <p class='password-error'>Please enter a valid password to login.</p>
+      </section>`;
+    return passwordError;
+  },
+
   buildManagerDashboard(today, manager) {
     let managerDashboard =
     `<section class="manager-dashboard">
@@ -75,7 +94,7 @@ let domDisplay = {
         </div>
         <div>
           <section class="total-spent">
-            <p>Total billed : ${user.totalSpent}</p>
+            <p>Total billed : $${user.totalSpent}</p>
           </section>
         </div>
         <div>
@@ -87,13 +106,15 @@ let domDisplay = {
   },
 
   formatBookingsList(roomsData, user) {
-    console.log('formatBookingsList: ', 'called');
     return user.bookings.map(booking => {
       let room = roomsData.find(room => {
         return room.number === parseInt(booking.roomNumber);
       });
-      return `<li class="bookings-list-listItem">|Date: ${booking.date}  |Bill: ${room.costPerNight}</li>`
-    });
+      console.log('room: ', room);
+      if (room !== undefined) {
+        return `<li class="bookings-list-listItem">|Date: ${booking.date}       |Bill: $${room.costPerNight}</li></br>`
+      };
+    }).join('');
   }
 
 };

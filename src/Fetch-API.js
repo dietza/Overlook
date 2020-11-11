@@ -16,9 +16,6 @@ let fetchApi = {
       .then(fetched => fetched.forEach(booking => {
         bookingsData.push(booking);
       }))
-      //   bookingsData = fetched.map(booking => {
-      //   return booking
-      // }))
       .catch(error => console.log(error.message));
     return bookingsData;
   },
