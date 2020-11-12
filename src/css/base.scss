@@ -62,7 +62,7 @@
   overflow: scroll;
 }
 
-@mixin inputs {
+@mixin inputs() {
   background: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
   width: 10em;
   height: 2em;
@@ -73,7 +73,7 @@
   margin: 15px;
 }
 
-@mixin buttons {
+@mixin buttons() {
   width: 6em;
   height: 2em;
   font-weight: 300;
@@ -92,12 +92,28 @@ button:focus {
   color: $focus-color;
 }
 
-@mixin error-message {
+@mixin error-message() {
   align-items: center;
   justify-content: center;
   font-size: 1em;
   font-weight: 400;
   color: $focus-color;
+}
+
+@mixin listFormatting() {
+  @include flexDisplay(column);
+  height: 400px;
+  width: 300px;
+  overflow: scroll;
+}
+
+@mixin listItemFormatting() {
+  font-family: $font-family;
+  color: $white;
+  font-size: .85em;
+  font-weight: 300;
+  text-align: center;
+  margin: .25em;
 }
 
 * {
@@ -179,6 +195,14 @@ ul {
   @include userDashboardWelcome();
 }
 
+.available-rooms-section {
+  @include listFormatting();
+}
+
+.availablity-list-listItem {
+  @include listItemFormatting();
+}
+
 .guest-display {
   @include userDisplay();
 }
@@ -188,18 +212,11 @@ ul {
 }
 
 .guest-bookings-section {
-  @include flexDisplay(column);
-  height: 400px;
-  overflow: scroll;
+  @include listFormatting();
 }
 
 .bookings-list-listItem {
-  font-family: $font-family;
-  color: $white;
-  font-size: .85em;
-  font-weight: 300;
-  text-align: center;
-  margin: .25em;
+  @include listItemFormatting();
 }
 
 .submit-button {

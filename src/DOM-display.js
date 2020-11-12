@@ -43,7 +43,8 @@ let domDisplay = {
     return passwordError;
   },
 
-  buildManagerDashboard(today, manager) {
+  buildManagerDashboard(today, roomsData, manager) {
+    let roomsAvailableToday = domDisplay.formatAvailabilityList(roomsData, manager);
     let managerDashboard =
     `<section class="manager-dashboard">
       <form class="manager-display" role="display-info-for-manager">
@@ -53,18 +54,23 @@ let domDisplay = {
           <h3>${today}</h3>
         </div>
         <div>
-          <section class="available-bookings">
-            <p>Rooms available today : ${manager.availableBookings}</p>
-          </section>
+          <section class="available-rooms-section">
+              <p>Available today:
+              <ul class="available-rooms-list">
+              ${roomsAvailableToday}
+              </ul>
+              </p>
+            </section>
+          </div>
         </div>
         <div>
           <section class="percentage-booked-rooms">
-            <p>Rooms booked today : ${manager.bookedRooms}</p>
+            <p>Occupancy today : ${manager.percentOccupancyToday} %</p>
           </section>
         </div>
         <div>
           <section class="daily-revenue">
-            <p>Projected daily revenue : ${manager.calculateDailyRevenue(today)}</p>
+            <p>Projected daily revenue : $${manager.revenueToday}</p>
           </section>
         </div>
         <button id="return-to-login-button" class="logout-button" type="button" tabindex="0">Logout</button>
@@ -105,12 +111,20 @@ let domDisplay = {
     return guestDashboard;
   },
 
+  formatAvailabilityList(roomsData, manager) {
+    let available = manager.roomsAvailableToday;
+    return available.map(room => {
+      if ((available.includes(room)) && (room !== undefined)) {
+        return `<li class="availablity-list-listItem">| Room: ${room.number}     | ${room.roomType}        | $${room.costPerNight.toFixed(2)}</li></br>`
+      };
+    }).join('');
+  },
+
   formatBookingsList(roomsData, user) {
     return user.bookings.map(booking => {
       let room = roomsData.find(room => {
         return room.number === parseInt(booking.roomNumber);
       });
-      console.log('room: ', room);
       if (room !== undefined) {
         return `<li class="bookings-list-listItem">|Date: ${booking.date}       |Bill: $${room.costPerNight}</li></br>`
       };

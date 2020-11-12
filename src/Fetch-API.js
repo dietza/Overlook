@@ -30,6 +30,29 @@ let fetchApi = {
       }))
       .catch(error => console.log(error.message));
     return roomsData;
+  },
+
+  postNewBooking() {
+     let newBooking = fetchApi.createBooking();
+     let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
+       method: 'POST',
+       headers: {
+         'Content-Type':'application/json'
+       },
+       body: JSON.stringify(newBooking)
+     })
+     .then(response => response.json())
+     .catch(error => console.log(error.message))
+   },
+
+  createBooking() {
+// verify inputs
+    let newBooking = {
+    userID: 48,
+    date: "2019/09/23",
+    roomNumber: 4
+    };
+    return newBooking;
   }
 
 }

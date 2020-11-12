@@ -23,29 +23,32 @@ let bookingsData = fetchApi.fetchBookingsData();
 console.log('bookingsData: ', bookingsData);
 
 let guests;
-let currentGuest;
-let manager;
-let userID;
-let userBookings;
-let billing;
+let guestBookings;
 let allRooms;
+let currentGuest;
+let userID;
+let manager;
 let today;
 
 Promise.all([usersData, roomsData, bookingsData])
   .then(values => {
-    guests = makeUsers(values[0]);
+    // guests = makeUsers(values[0]);
 
-    userBookings = bookingsData;
-    console.log('userBookings: ', userBookings);
+    today = getToday();
+
+    guestBookings = bookingsData;
+    console.log('guestBookings: ', guestBookings);
 
     allRooms = roomsData;
     console.log('allRooms: ', allRooms);
+
+    guests = makeUsers(values[0]);
 
 });
 
 function makeUsers(usersData) {
   return usersData.map(userInfo => {
-    return new User(userInfo);
+    return new User(today, allRooms, guestBookings, userInfo);
   })
 };
 
@@ -79,9 +82,8 @@ function verifyLoginInputs() {
 
 function displayManagerDashboard() {
   mainDisplay.innerHTML = '';
-  let today = getToday();
-  let manager = new Manager(today, guests);
-  let managerDashboard = domDisplay.buildManagerDashboard(today, manager);
+  let manager = new Manager(today, allRooms, guestBookings, guests);
+  let managerDashboard = domDisplay.buildManagerDashboard(today, roomsData, manager);
   mainDisplay.insertAdjacentHTML('beforeend', managerDashboard);
   returnToLoginButton = document.querySelector('#return-to-login-button');
   returnToLoginButton.addEventListener('click', returnToLogin);
@@ -100,11 +102,11 @@ function establishUser() {
 function defineUserInfo(currentGuest) {
   console.log('defineUserInfo//currentGuest:', currentGuest);
 
-  findUserBookings(userBookings, currentGuest);
+  findGuestBookings(guestBookings, currentGuest);
   findUserTotalSpent(allRooms, currentGuest);
 };
 
-function findUserBookings(bookingsData, user) {
+function findGuestBookings(bookingsData, user) {
     console.log('user.bookings: ', user.bookings);
     let bookings = user.viewBookings(bookingsData);
     console.log('user.bookings: ', user.bookings);
@@ -120,7 +122,6 @@ function findUserTotalSpent(roomsData, user) {
 
 function displayGuestDashboard(roomsData, currentGuest) {
   mainDisplay.innerHTML = '';
-  let today = getToday();
   let guestDashboard = domDisplay.buildGuestDashboard(today, roomsData, currentGuest);
   mainDisplay.insertAdjacentHTML('beforeend', guestDashboard);
   returnToLoginButton = document.querySelector('#return-to-login-button');
