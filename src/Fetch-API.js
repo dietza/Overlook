@@ -32,9 +32,9 @@ let fetchApi = {
     return roomsData;
   },
 
-  postNewBooking() {
-     let newBooking = fetchApi.createBooking();
-     let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
+  postNewBooking(booking, user) {
+     let newBooking = fetchApi.createBooking(booking, user);
+     let postBookingData = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
        method: 'POST',
        headers: {
          'Content-Type':'application/json'

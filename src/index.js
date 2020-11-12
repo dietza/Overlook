@@ -14,6 +14,7 @@ let mainDisplay = document.querySelector('.main-display');
 let usernameInput = document.querySelector('#username-input');
 let userPasswordInput = document.querySelector('#user-password-input');
 let loginSubmitButton = document.querySelector('#login-submit-button');
+let bookingSubmitButton;
 let returnToLoginButton;
 
 let usersData = fetchApi.fetchUsersData();
@@ -32,7 +33,6 @@ let today;
 
 Promise.all([usersData, roomsData, bookingsData])
   .then(values => {
-    // guests = makeUsers(values[0]);
 
     today = getToday();
 
@@ -60,6 +60,10 @@ function getToday() {
   let today = (new Date()).toLocaleDateString('en-GB');
   console.log('today: ', today)
   return today;
+};
+
+function getRandomBookingId(min, max) {
+    return Math.random() * (max - min) + min;
 };
 
 function verifyLoginInputs() {
@@ -126,6 +130,9 @@ function displayGuestDashboard(roomsData, currentGuest) {
   mainDisplay.insertAdjacentHTML('beforeend', guestDashboard);
   returnToLoginButton = document.querySelector('#return-to-login-button');
   returnToLoginButton.addEventListener('click', returnToLogin);
+
+  bookingSubmitButton = document.querySelector('#booking-submit-button');
+  bookingSubmitButton.addEventListener('click', returnToLogin);
 };
 
 function returnToLogin() {

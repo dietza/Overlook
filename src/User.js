@@ -58,11 +58,12 @@ class User {
     return filteredRooms;
   }
 
-  bookRoom(selectedDate, availableRooms, bookingsData, selectedRoom) {
+  bookRoom(selectedDate, availableRooms, bookingsData, selectedRoom, bookingId) {
     let newBooking = {
       'userID': this.id,
       'date': selectedDate,
-      'roomNumber': selectedRoom.number
+      'roomNumber': selectedRoom.number,
+      'id': bookingId
     };
     return availableRooms.includes(selectedRoom) ? newBooking : alert('sorry, that room is not available!');
 
