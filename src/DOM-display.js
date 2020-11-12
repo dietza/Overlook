@@ -113,11 +113,7 @@ let domDisplay = {
                 <input type="date" name="date-selection" id="date-input" aria-label="input-selector-for-date" aria-required=true placeholder="date" tabindex="0">
               </section>
               <section class="room-availability-section">
-                <p>Rooms Available on ${'selectedDate'} :
-                <ul class="rooms-available-list">
-                ${'availableRooms'}
-                </ul>
-                </p>
+
               </section>
               <button id="booking-submit-button" class="booking-submit-button" type="button" tabindex="0">Book this Room</button>
             </form>
