@@ -249,6 +249,15 @@ ul {
   @include listItemFormatting;
 }
 
+.availability-list-listItem:focus {
+  cursor: crosshair;
+  color: $focus-color;
+}
+
+.rooms-available-list {
+  @include listItemFormatting;
+}
+
 .submit-button {
   @include buttons;
   margin: 10px;

@@ -58,14 +58,16 @@ class User {
     return filteredRooms;
   }
 
-  bookRoom(selectedDate, availableRooms, bookingsData, selectedRoom, bookingId) {
+  bookRoom(selectedDate, bookingsData, roomsData, selectedRoom, bookingId) {
+    let availableRooms = this.searchAvailability(selectedDate, roomsData, bookingsData);
     let newBooking = {
       'userID': this.id,
-      'date': selectedDate,
+      'date': (selectedDate).split('-').join('/'),
       'roomNumber': selectedRoom.number,
       'id': bookingId
     };
-    return availableRooms.includes(selectedRoom) ? newBooking : alert('sorry, that room is not available!');
+    console.log('newBooking: ', newBooking);
+    return newBooking;
 
 // FETCH - POST REQUEST
   }
