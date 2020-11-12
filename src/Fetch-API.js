@@ -32,8 +32,8 @@ let fetchApi = {
     return roomsData;
   },
 
-  postNewBooking(booking, user) {
-     let newBooking = fetchApi.createBooking(booking, user);
+  postNewBooking(booking) {
+     let newBooking = fetchApi.createBooking(booking);
      let postBookingData = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
        method: 'POST',
        headers: {
@@ -45,12 +45,13 @@ let fetchApi = {
      .catch(error => console.log(error.message))
    },
 
-  createBooking(booking, user) {
+  createBooking(booking) {
 // verify inputs
     let newBooking = {
-    userID: user.id,
+    userID: booking.userID,
     date: booking.selectedDate,
-    roomNumber: booking.roomNumber
+    roomNumber: booking.roomNumber,
+    id: booking.id
     };
     return newBooking;
   }

@@ -14,6 +14,7 @@ let mainDisplay = document.querySelector('.main-display');
 let usernameInput = document.querySelector('#username-input');
 let userPasswordInput = document.querySelector('#user-password-input');
 let loginSubmitButton = document.querySelector('#login-submit-button');
+let dateInput;
 let bookingSubmitButton;
 let returnToLoginButton;
 
@@ -100,8 +101,20 @@ function establishUser() {
     return user.id === userID
   })
   defineUserInfo(currentGuest);
+  storeCurrentGuest(currentGuest);
   displayGuestDashboard(allRooms, currentGuest);
 };
+
+function storeCurrentGuest(currentGuest) {
+  let guest = JSON.stringify(currentGuest);
+  localStorage.setItem('storedGuest', guest);
+};
+
+function getCurrentGuest() {
+  let storedGuest = localStorage.getItem('storedGuest');
+  let currentGuest = JSON.parse(storedGuest);
+  return currentGuest;
+}
 
 function defineUserInfo(currentGuest) {
   console.log('defineUserInfo//currentGuest:', currentGuest);
@@ -111,16 +124,12 @@ function defineUserInfo(currentGuest) {
 };
 
 function findGuestBookings(bookingsData, user) {
-    console.log('user.bookings: ', user.bookings);
     let bookings = user.viewBookings(bookingsData);
-    console.log('user.bookings: ', user.bookings);
     return bookings;
 };
 
 function findUserTotalSpent(roomsData, user) {
-    console.log('user.totalSpent: ', user.totalSpent);
     let totalBilled = user.caluculateTotalSpent(roomsData);
-    console.log('user.totalSpent: ', user.totalSpent);
     return totalBilled;
 };
 
@@ -128,11 +137,43 @@ function displayGuestDashboard(roomsData, currentGuest) {
   mainDisplay.innerHTML = '';
   let guestDashboard = domDisplay.buildGuestDashboard(today, roomsData, currentGuest);
   mainDisplay.insertAdjacentHTML('beforeend', guestDashboard);
+  setGuestDashboardElements();
+};
+
+function setGuestDashboardElements() {
   returnToLoginButton = document.querySelector('#return-to-login-button');
   returnToLoginButton.addEventListener('click', returnToLogin);
-
+  dateInput = document.querySelector('#date-input');
+  dateInput.addEventListener('change', findAvailableRooms);
   bookingSubmitButton = document.querySelector('#booking-submit-button');
-  bookingSubmitButton.addEventListener('click', returnToLogin);
+  bookingSubmitButton.addEventListener('click', submitBooking);
+};
+
+function findAvailableRooms(event) {
+
+  let currentGuest = getCurrentGuest();
+
+  console.log('currentGuest: ', currentGuest);
+
+  let selectedDate = event.target.value;
+
+  console.log('selectedDate: ', selectedDate);
+
+  let availableRooms = currentGuest.searchAvailability(selectedDate, allRooms, guestBookings);
+
+  console.log('availableRooms: ', availableRooms);
+
+  if (availableRooms.length > 0) {
+    return availableRooms;
+  } else {
+    alert('Sorry, there are no rooms available that day!')
+  }
+};
+
+function submitBooking(selectedDate, availableRooms, bookingsData, selectedRoom) {
+  let bookingId = getRandomBookingId(7777744444333, 888844444333);
+  let newBooking = currentUser.bookRoom(selectedDate, availableRooms, bookingsData, selectedRoom, bookingId);
+  fetchApi.postNewBooking(newBooking, user);
 };
 
 function returnToLogin() {

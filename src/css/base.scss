@@ -205,16 +205,19 @@ ul {
 
 .guest-display {
   @include userDisplay;
+  height: 700px;
 }
 
 .guest-welcome {
   @include userDashboardWelcome;
   justify-content: space-around;
-  padding-top: 100px;
 }
 
 .guest-bookings-section {
   @include listFormatting;
+  height: 250px;
+  width: 300px;
+  overflow: scroll;
 }
 
 .bookings-list-listItem {
@@ -225,7 +228,7 @@ ul {
   @include flexDisplay(column);
   @include form;
   align-items: center;
-  height: 400px;
+  height: 230px;
   overflow: scroll;
 }
 
@@ -238,6 +241,8 @@ ul {
 .room-availability-section {
   @include listFormatting;
   margin: 0;
+  height: 300px;
+  width: 300px;
 }
 
 .availability-list-listItem {
@@ -246,10 +251,12 @@ ul {
 
 .submit-button {
   @include buttons;
+  margin: 10px;
 }
 
 .logout-button {
   @include buttons;
+  margin: 10px;
 }
 
 .booking-submit-button {

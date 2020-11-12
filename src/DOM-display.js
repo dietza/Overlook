@@ -123,7 +123,7 @@ let domDisplay = {
             </form>
           </section>
         </div>
-        
+
         <div>
         <button id="return-to-login-button" class="logout-button" type="button" tabindex="0">Logout</button>
         </div>
