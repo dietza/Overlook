@@ -1,29 +1,74 @@
 class User {
-  constructor(user) {
+  constructor(today, roomsData, bookingsData, user) {
     this.id = user.id,
-    this.name = user.name
+    this.name = user.name,
+    this.bookings = [],
+    this.totalSpent = 0,
+    this.deletedBookings = []
   }
-}
 
+  viewBookings(bookingsData) {
+    this.bookings = bookingsData.filter(booking => {
+      return booking.userID === this.id;
+    });
+  }
 
+  caluculateTotalSpent(roomsData) {
+    let totalSpent = this.bookings.reduce((total, booking) => {
+      let roomBooked = roomsData.find(room => {
+        return room.number === parseInt(booking.roomNumber);
+      })
+      if (roomBooked !== undefined) {
+        total += roomBooked.costPerNight;
+      };
+      return total;
+    }, 0);
+    this.totalSpent = totalSpent.toFixed(2);
+  }
 
-/// On LOGIN page:
-/// USER inputs their username - check validity (' customer1-50 ')
-/// USER inputs their password - chewck validtity (' overlook2020 ')
+  searchAvailability(selectedDate, roomsData, bookingsData) {
+    let occupied = this.findRoomsOccupied(selectedDate, roomsData, bookingsData);
+    let availableRooms = roomsData.reduce((available, room) => {
+      if(occupied.includes(room) === false) {
+        available.push(room);
+      }
+      return available;
+    }, []);
+    return availableRooms;
+  }
 
-/// Add EVENTLISTENER - when the 'SUBMIT' button is clicked,
-/// Check the input fields.
+  findRoomsOccupied(selectedDate, roomsData, bookingsData) {
+    let occupiedRooms = [];
+    roomsData.forEach(room => {
+      bookingsData.forEach(booking => {
+        if((parseInt(booking.roomNumber) === room.number) &&
+        (booking.date === selectedDate)) {
+          occupiedRooms.push(room);
+        }
+      });
+    })
+    return occupiedRooms;
+  }
 
-/// IF invalid - throw an ERROR
+  filterByRoomType(selectedDate, roomsData, bookingsData, roomType) {
+    let availableRooms = this.searchAvailability(selectedDate, roomsData, bookingsData);
+    let filteredRooms = availableRooms.filter(room => {
+      return room.roomType === roomType;
+    });
+    return filteredRooms;
+  }
 
-/// IF the above inputs are valid:
+  bookRoom(selectedDate, availableRooms, bookingsData, selectedRoom) {
+    let newBooking = {
+      'userID': this.id,
+      'date': selectedDate,
+      'roomNumber': selectedRoom.number
+    };
+    return availableRooms.includes(selectedRoom) ? newBooking : alert('sorry, that room is not available!');
 
-/// FETCH data and instantiate correct type of USER
+// FETCH - POST REQUEST
+  }
 
-/// INSTANTIATE the new USER as a CUSTOMER (not a MANAGER)
-/// DISPLAY the CUSTOMER DASHBOARD
-///
-///
-/// INSTANTIATE the new USER as a MANAGER (inherits from USER)
-/// DISPLAY the MANAGER DASHBOARD
+};
+
 module.exports = User;

@@ -1,12 +1,4 @@
-/* This is an example of using Sass, otherwise plain CSS works too*/
-// $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-// $sematic-base-styling: rgba(0, 0, 0, 0) 100%;
-$white: #FFFFFF;
-$black: #000000;
-$font-family: 'Montserrat', sans-serif;
-$focus-color:	#FF6347;
-
-
+@import 'variables';
 
 @mixin flexDisplay($direction) {
   display: flex;
@@ -25,19 +17,42 @@ $focus-color:	#FF6347;
 @mixin labelText() {
   font-family: $font-family;
   color: $white;
-  font-size: 1.5em;
+  font-size: 1.65em;
   font-weight: 300;
   text-align: center;
   margin: .5em;
 }
 
 @mixin loginBackground() {
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)),
     url(https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/iss063e110863.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   height: 1000px;
+}
+
+@mixin dashboardBackground() {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)),
+    url(https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/iss063e110863.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 1000px;
+}
+
+@mixin userDashboardWelcome() {
+  @include flexDisplay(column);
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
+}
+
+@mixin userDisplay() {
+  @include flexDisplay(column);
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
 }
 
 @mixin form() {
@@ -47,7 +62,7 @@ $focus-color:	#FF6347;
   overflow: scroll;
 }
 
-@mixin inputs {
+@mixin inputs() {
   background: linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
   width: 10em;
   height: 2em;
@@ -58,7 +73,7 @@ $focus-color:	#FF6347;
   margin: 15px;
 }
 
-@mixin buttons {
+@mixin buttons() {
   width: 6em;
   height: 2em;
   font-weight: 300;
@@ -71,9 +86,34 @@ $focus-color:	#FF6347;
   border-radius: 3%;
   margin: 25px;
   cursor: crosshair;
-  button:focus {
-    color: $focus-color;
-  }
+}
+
+button:focus {
+  color: $focus-color;
+}
+
+@mixin error-message() {
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  font-weight: 400;
+  color: $focus-color;
+}
+
+@mixin listFormatting() {
+  @include flexDisplay(column);
+  height: 400px;
+  width: 300px;
+  overflow: scroll;
+}
+
+@mixin listItemFormatting() {
+  font-family: $font-family;
+  color: $white;
+  font-size: .85em;
+  font-weight: 300;
+  text-align: center;
+  margin: .25em;
 }
 
 * {
@@ -91,6 +131,24 @@ body {
 
 h1 {
   @include headingText;
+  margin: 0
+}
+
+h2 {
+  @include headingText;
+  font-size: 2.5em;
+  margin: 0
+}
+
+h3 {
+  @include headingText;
+  font-size: 1.65em;
+  margin: 0
+}
+
+p {
+  @include labelText;
+  font-size: 1.25em;
 }
 
 input {
@@ -111,16 +169,77 @@ label {
   @include labelText;
 }
 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: justify;
+}
+
 .user-login-form {
   @include flexDisplay(column);
   @include form;
   align-items: center;
 }
 
+.welcome-header {
+  @include flexDisplay(column);
+  margin: 40px;
+}
+
+.manager-display {
+  @include userDisplay();
+}
+
+.manager-welcome {
+  @include userDashboardWelcome();
+}
+
+.available-rooms-section {
+  @include listFormatting();
+}
+
+.availablity-list-listItem {
+  @include listItemFormatting();
+}
+
+.guest-display {
+  @include userDisplay();
+}
+
+.guest-welcome {
+  @include userDashboardWelcome();
+}
+
+.guest-bookings-section {
+  @include listFormatting();
+}
+
+.bookings-list-listItem {
+  @include listItemFormatting();
+}
+
 .submit-button {
   @include buttons;
 }
 
-button:focus {
-  color: $focus-color;
+.logout-button {
+  @include buttons;
+}
+
+.username-error {
+  @include flexDisplay(column);
+  @include labelText;
+  @include error-message;
+}
+
+.password-error {
+  @include flexDisplay(column);
+  @include labelText;
+  @include error-message;
+}
+
+.error-icon {
+ height: 15px;
+ width: 15px;
 }
