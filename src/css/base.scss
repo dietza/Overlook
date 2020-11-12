@@ -53,6 +53,7 @@
   align-items: center;
   justify-content: center;
   margin: 0px;
+  height: 1000px;
 }
 
 @mixin form() {
@@ -127,6 +128,8 @@ body {
   @include flexDisplay(column);
   align-items: center;
   justify-content: center;
+  height: 1000px;
+  overflow: scroll;
 }
 
 h1 {
@@ -188,43 +191,87 @@ ul {
 }
 
 .manager-display {
-  @include userDisplay();
+  @include userDisplay;
 }
 
 .manager-welcome {
-  @include userDashboardWelcome();
+  @include userDashboardWelcome;
 }
 
-.available-rooms-section {
-  @include listFormatting();
-}
-
-.availablity-list-listItem {
-  @include listItemFormatting();
+.guest-dashboard {
+  @include userDisplay;
+  height: 1000px;
 }
 
 .guest-display {
-  @include userDisplay();
+  @include userDisplay;
+  height: 700px;
 }
 
 .guest-welcome {
-  @include userDashboardWelcome();
+  @include userDashboardWelcome;
+  justify-content: space-around;
 }
 
 .guest-bookings-section {
-  @include listFormatting();
+  @include listFormatting;
+  height: 250px;
+  width: 300px;
+  overflow: scroll;
 }
 
 .bookings-list-listItem {
-  @include listItemFormatting();
+  @include listItemFormatting;
+}
+
+.guest-booking-search {
+  @include flexDisplay(column);
+  @include form;
+  align-items: center;
+  height: 230px;
+  overflow: scroll;
+}
+
+.date-input-form {
+  justify-content: center;
+  height: 400px;
+  overflow: scroll;
+}
+
+.room-availability-section {
+  @include listFormatting;
+  margin: 0;
+  height: 300px;
+  width: 300px;
+}
+
+.availability-list-listItem {
+  @include listItemFormatting;
+}
+
+.availability-list-listItem:focus {
+  cursor: crosshair;
+  color: $focus-color;
+}
+
+.rooms-available-list {
+  @include listItemFormatting;
 }
 
 .submit-button {
   @include buttons;
+  margin: 10px;
 }
 
 .logout-button {
   @include buttons;
+  margin: 10px;
+}
+
+.booking-submit-button {
+  @include buttons;
+  height: 45px;
+  font-size: .85em;
 }
 
 .username-error {

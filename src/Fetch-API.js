@@ -32,28 +32,34 @@ let fetchApi = {
     return roomsData;
   },
 
-  postNewBooking() {
-     let newBooking = fetchApi.createBooking();
-     let postSleepData = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
+  postNewBooking(booking) {
+     // let newBooking = fetchApi.createBooking(booking);
+     let postBookingData = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
        method: 'POST',
        headers: {
          'Content-Type':'application/json'
        },
-       body: JSON.stringify(newBooking)
+       body: JSON.stringify({
+         "userID": parseInt(booking.userID),
+         "date": booking.date,
+         "roomNumber": parseInt(booking.roomNumber),
+         "id": parseInt(booking.id)
+       })
      })
      .then(response => response.json())
      .catch(error => console.log(error.message))
    },
-
-  createBooking(booking, user) {
-// verify inputs
-    let newBooking = {
-    userID: user.id,
-    date: booking.selectedDate,
-    roomNumber: booking.roomNumber
-    };
-    return newBooking;
-  }
+//
+//   createBooking(booking) {
+// // verify inputs
+//     let newBooking = {
+//     userID: parseInt(booking.userID),
+//     date: booking.date,
+//     roomNumber: parseInt(booking.roomNumber),
+//     id: parseInt(booking.id)
+//     };
+//     return newBooking;
+//   }
 
 }
 

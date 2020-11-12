@@ -103,6 +103,23 @@ let domDisplay = {
             <p>Total billed : $${user.totalSpent}</p>
           </section>
         </div>
+
+        <div>
+          <section class="guest-booking-search">
+            <form role="guest-booking-form" class="guest-booking-form">
+              <section class="date-input-form">
+                <p>Ready for another escape?</p>
+                <label for="date-input" class="input-label"><p>Select a Date: </p></label>
+                <input type="date" name="date-selection" id="date-input" aria-label="input-selector-for-date" aria-required=true placeholder="date" tabindex="0">
+              </section>
+              <section class="room-availability-section">
+
+              </section>
+              <button id="booking-submit-button" class="booking-submit-button" type="button" tabindex="0">Book this Room</button>
+            </form>
+          </section>
+        </div>
+
         <div>
         <button id="return-to-login-button" class="logout-button" type="button" tabindex="0">Logout</button>
         </div>
