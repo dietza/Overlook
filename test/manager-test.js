@@ -35,7 +35,6 @@ describe('Manager', function() {
 
   function getToday() {
     let today = (new Date()).toLocaleDateString('en-GB');
-    console.log('today: ', today)
     return today;
   };
 
@@ -86,16 +85,7 @@ describe('Manager', function() {
   })
 
   it('should be able to access the list of guests', function() {
-    console.log('manager: ', manager);
     expect(manager.guests.length).to.deep.equal(3);
-  });
-
-  it('should be able to find the rooms occupied on a given day', function() {
-    let occupiedRooms = manager.findRoomsOccupied('2020/02/20', rooms, bookings);
-    expect(occupiedRooms).to.deep.equal([
-      {"number":13,"roomType":"single room","bidet":false,"bedSize":"queen","numBeds":2,"costPerNight":423.92},
-      {"number":14,"roomType":"residential suite","bidet":false,"bedSize":"twin","numBeds":1,"costPerNight":457.88}
-  ]);
   });
 
   it('should be able to find the rooms occupied on a given day', function() {
@@ -134,10 +124,6 @@ describe('Manager', function() {
   it('should be able to search for a guest by name', function() {
     let guest = manager.searchByGuest(user3.name, guestList);
     expect(guest.name).to.deep.equal('Kelvin Schiller');
-
-    console.log('today: ', today);
-    console.log('guest: ', guest);
-
     expect(guest.bookings).to.deep.equal([{"id":"5fwrgu4i7k55hl76o","userID":3,"date":"2020/02/20","roomNumber":14,"roomServiceCharges":[]}]);
   });
 
@@ -157,7 +143,7 @@ describe('Manager', function() {
       {"id":"5fwrgu4i7k55hl6wx","userID":2,"date":"2020/01/17","roomNumber":17,"roomServiceCharges":[]},
       {"id":"5fwrgu4i7k55hl76o","userID":3,"date":"2020/02/20","roomNumber":14,"roomServiceCharges":[]}
     ]);
-    
+
     let updatedGuestBookings = guest.viewBookings(updatedBookingsData);
     expect(guest.bookings).to.deep.equal([
       {"id":"5fwrgu4i7k55hl6wx","userID":2,"date":"2020/01/17","roomNumber":17,"roomServiceCharges":[]}]);

@@ -27,7 +27,6 @@ class User {
   }
 
   searchAvailability(selectedDate, roomsData, bookingsData) {
-    console.log('bookingsData: ', bookingsData);
     let occupied = this.findRoomsOccupied(selectedDate, roomsData, bookingsData);
     let availableRooms = roomsData.reduce((available, room) => {
       if(occupied.includes(room) === false) {
@@ -35,12 +34,10 @@ class User {
       }
       return available;
     }, []);
-    console.log('availableRooms: ', availableRooms);
     return availableRooms;
   }
 
   findRoomsOccupied(selectedDate, roomsData, bookingsData) {
-    console.log('bookingsData: ', bookingsData);
     let occupiedRooms = [];
     roomsData.forEach(room => {
       bookingsData.forEach(booking => {
@@ -50,11 +47,25 @@ class User {
         }
       });
     })
-    console.log('occupiedRooms: ', occupiedRooms);
     return occupiedRooms;
   }
 
-  bookRoom(selectedDate, roomsData) {
+  filterByRoomType(selectedDate, roomsData, bookingsData, roomType) {
+    let availableRooms = this.searchAvailability(selectedDate, roomsData, bookingsData);
+    let filteredRooms = availableRooms.filter(room => {
+      return room.roomType === roomType;
+    });
+    return filteredRooms;
+  }
+
+  bookRoom(selectedDate, availableRooms, bookingsData, selectedRoom) {
+    let newBooking = {
+      'userID': this.id,
+      'date': selectedDate,
+      'roomNumber': selectedRoom.number
+    };
+    return availableRooms.includes(selectedRoom) ? newBooking : alert('sorry, that room is not available!');
+
 // FETCH - POST REQUEST
   }
 

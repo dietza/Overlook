@@ -45,12 +45,12 @@ let fetchApi = {
      .catch(error => console.log(error.message))
    },
 
-  createBooking() {
+  createBooking(booking, user) {
 // verify inputs
     let newBooking = {
-    userID: 48,
-    date: "2019/09/23",
-    roomNumber: 4
+    userID: user.id,
+    date: booking.selectedDate,
+    roomNumber: booking.roomNumber
     };
     return newBooking;
   }

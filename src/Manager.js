@@ -8,7 +8,6 @@ class Manager {
   }
 
   searchAvailability(selectedDate, allRooms, guestBookings) {
-    console.log('guestBookings: ', guestBookings);
     let occupied = this.findRoomsOccupied(selectedDate, allRooms, guestBookings);
     let availableRooms = allRooms.reduce((available, room) => {
       if(occupied.includes(room) === false) {
@@ -16,12 +15,10 @@ class Manager {
       }
       return available;
     }, []);
-    console.log('availableRooms: ', availableRooms);
     return availableRooms;
   }
 
   findRoomsOccupied(selectedDate, allRooms, guestBookings) {
-    console.log('guestBookings: ', guestBookings);
     let occupiedRooms = [];
     allRooms.forEach(room => {
       guestBookings.forEach(booking => {
@@ -31,7 +28,6 @@ class Manager {
         }
       });
     })
-    console.log('occupiedRooms: ', occupiedRooms);
     return occupiedRooms;
   }
 
